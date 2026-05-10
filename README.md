@@ -7,60 +7,71 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Production-Ready Laravel Deployment (DevOps Challenge)
+## Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project demonstrates a production-ready deployment pipeline for a Laravel application using modern DevOps practices as stated in the requirement document.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The Activities in this challenge includes the following
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Infrastructure as Code for auto-server setup and configuration
+- Dockerized Laravel Application for containerization
+- CICD Pipeline with GitHub Action for auto-deployment to EC2
+- Nginx reverse proxy
+- MySQL Database container
+- Automated Deployment
 
-## Learning Laravel
+This challenge is to simulate a real life product grade deployment
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Architecture Overview
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## System Flow
 
-## Laravel Sponsors
+1. Github Repository
+2. Github Actions (CICD)
+3. Docker Build
+4. Deployment to Server (EC2-ready)
+5. Nginx Reverse Proxy
+6. Laravel Application (PHP-FPM)
+7. MySQL Database
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Components
 
-### Premium Partners
+- Laravel App → Backend application
+- Nginx → Reverse proxy / web server
+- PHP-FPM → Application runtime
+- MySQL → Database
+- Docker Compose → Container orchestration
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Tech Stack
+- Laravel (PHP 8.2)
+- MySQL 8
+- Nginx (Alpine)
+- Docker & Docker Compose
+- GitHub Actions (CI/CD)
+- Terraform 
+- AWS (Resources and Service)
 
-## Contributing
+## Project Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Clone Repository
+* git clone https://github.com/abiola-akorede/deveops_test_challenge.git
+* cd deveops_test_challenge
 
-## Code of Conduct
+2. Environment Setup
+Create .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=
+DB_USERNAME=test
+DB_PASSWORD=Dynamo
 
-## Security Vulnerabilities
+3. Run with Docker
+docker compose up -d --build
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Access Application
+http://localhost:8000
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
