@@ -1,0 +1,61 @@
+name: Deploy Laravel to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.EC2_KEY }}" > key.pem
+          chmod 600 key.pem
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+
+            set -e
+
+            echo "Navigating to app directory..."
+
+            if [ ! -d "test-challenge" ]; then
+              git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git test-challenge
+            fi
+
+            cd test-challenge
+
+            echo "Pulling latest code..."
+            git pull origin main
+
+            echo "Rebuilding Docker containers..."
+            docker compose down
+            docker compose up -d --build
+
+            echo "Waiting for MySQL to be ready..."
+            sleep 15
+
+            echo "Installing dependencies inside Laravel container..."
+            docker exec test_challenge composer install --no-dev --optimize-autoloader
+
+            echo "Generating Laravel app key (if not set)..."
+            docker exec test_challenge php artisan key:generate || true
+
+            echo "Running database migrations..."
+            docker exec test_challenge php artisan migrate --force
+
+            echo "Optimizing Laravel cache..."
+            docker exec test_challenge php artisan config:cache
+            docker exec test_challenge php artisan route:cache
+            docker exec test_challenge php artisan view:cache
+
+            echo "✅ Deployment completed successfully!"
+
+          EOF
