@@ -17,16 +17,17 @@ This challenge is to simulate a real life product grade deployment
 
 
 ## Architecture Overview
+![Architecture Diagram](public/images/test%20challenge%20architecture.png)
 
 ## System Flow
 
 1. Github Repository
 2. Github Actions (CICD)
-3. Docker Build
-4. Deployment to Server (EC2-ready)
-5. Nginx Reverse Proxy
-6. Laravel Application (PHP-FPM)
-7. MySQL Database
+3. Connection to EC2 is initiated
+4. Pull codes from Repository
+5. Run database migration
+6. Rebuilds and restart docker container
+7. Application is live and updated
 
 ## Components
 
@@ -35,6 +36,7 @@ This challenge is to simulate a real life product grade deployment
 - PHP-FPM → Application runtime
 - MySQL → Database
 - Docker Compose → Container orchestration
+- AWS EC2, Security Group, Networking etc
 
 ## Tech Stack
 - Laravel (PHP 8.2)
@@ -45,27 +47,59 @@ This challenge is to simulate a real life product grade deployment
 - Terraform 
 - AWS (Resources and Service)
 
-## Project Setup
+## Project Setup / Deployment STep
 
 1. Clone Repository
 * git clone https://github.com/abiola-akorede/deveops_test_challenge.git
 * cd deveops_test_challenge
-
 2. Environment Setup
 Create .env
-
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=
-DB_USERNAME=test
-DB_PASSWORD=Dynamo
-
+* DB_CONNECTION=mysql
+* DB_HOST=mysql
+* DB_PORT=3306
+* DB_DATABASE=
+* DB_USERNAME=
+* DB_PASSWORD=
 3. Run with Docker
-docker compose up -d --build
-
+* docker compose up -d --build
+4. Run database migration
+* docker exec test_challenge php artisan migrate --force
 4. Access Application
 http://localhost:8000
 
-![Architecture Diagram](public/images/test%20challenge%20architecture.png)
+## Design Decisions
+# Why Docker
+* It ensures service isolation (containerization)
+* It ensure environment consistency
+* It provides easy deployment across locals and cloud
+
+# Why Nginx?
+* Lightweight reverse proxy
+* Handles routing to PHP-FPM
+* It gives product standard
+
+# WHy EC2?
+* To avoid AWS cost on ECS and EKS
+* To ensure terraform automation is achieve with all the free tier of AWS
+
+## Assumptions Made
+* Application is deployed in a single instance EC2 (Upgrade to ECS or EKS is possible in the future)
+* I avoided using AWS database service for cost optimization
+* CICD is deployed with GitHub Actions and not Jenkins as prefered in the challenge request
+
+## Limitations
+* No auto-scaling
+* No managed database for cost optimization
+
+## Improvement
+* Provisioning for VPC, ECS, EKS
+* ECS Fargate Migration
+* AWS RDS Integration
+* Zero Downtime Deployment Pipeline
+
+## Author
+* Name: Ahmad Akorede
+* Email: aabiola610@gmail.com 
+
+
 
