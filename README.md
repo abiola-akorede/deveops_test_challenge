@@ -75,3 +75,5 @@ docker compose up -d --build
 4. Access Application
 http://localhost:8000
 
+![Architecture Diagram](public/images/test%20challenge%20architecture.png)
+
