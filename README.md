@@ -86,6 +86,8 @@ http://localhost:8000
 * Application is deployed in a single instance EC2 (Upgrade to ECS or EKS is possible in the future)
 * I avoided using AWS database service for cost optimization
 * CICD is deployed with GitHub Actions and not Jenkins as prefered in the challenge request
+* The deployment secrets are expected to be setup and used in the action secret of the repository. They are not visibly available
+* The EC2 instance created with the terraform script has been destroyed to avoid cummulative charges from AWS. That is why the deployment might be showing failed in the repository. But everything was tested correctly during the project.
 
 ## Limitations
 * No auto-scaling
