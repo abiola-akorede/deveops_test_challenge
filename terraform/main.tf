@@ -21,3 +21,9 @@ module "ec2" {
   instance_type = var.instance_type
   key_name      = var.key_name
 }
+
+module "monitoring" {
+  source = "./modules/monitoring"
+
+  instance_id = module.ec2.instance_id
+}
